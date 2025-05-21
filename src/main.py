@@ -9,6 +9,10 @@ import pandas as pd
 #Calculate points w spreadsheet and point breakdown (Attendance)
 #Grab email from members - Roster
 
+#All csv files should be placed into the data folder
+#To use filename in function follow this format: "../data/[filename].csv"
+
+
 def print_members(filename):
     df = pd.read_csv(filename)
     print(df.to_string())
@@ -38,7 +42,36 @@ def get_member_emails(filename, name):
     member = df[df['Name'] == name][['Name', 'Email']]
     print(member)
 
-get_most_active_member('../data/NSBEAttendance_2025.csv')
+def get_academic_years(filename):
+    df = pd.read_csv(filename)
+    freshman_count = df['Year'].value_counts().get('Freshman', "Can't be found")
+    sophmore_count = df['Year'].value_counts().get('Sophmore', "Can't be found")
+    junior_count = df['Year'].value_counts().get('Junior', "Can't be found")
+    senior_count = df['Year'].value_counts().get('Senior', "Can't be found")
+    grad_count = df['Year'].value_counts().get('Grad Student', "Can't be found")
+   
+    print(f'''
+    Frehsman = {freshman_count}
+    Sophmore = {sophmore_count}
+    Junior = {junior_count}
+    Senior = {senior_count}
+    Grad Student = {grad_count}''')
+
+def get_academic__major_count(filename):
+    df = pd.read_csv(filename)
+    #Majors = Arch, Biomed, Biophy, Civil, Comp, Con, Cyber, Elec, Eng, Env, Indu, Info, Man, Mech, MechTech, Neuro, Undecl
+    major_counts = df['Major/Minor'].str.lower().str.strip().value_counts()
+
+    print(major_counts)
+
+    #clean_majors = majors.str.strip().str.title()
+    #print(clean_majors)
+   
+    
+get_academic__major_count("../data/NSBEMajors_24-25.csv")
+
+
+
 
 
 
